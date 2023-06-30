@@ -1,3 +1,4 @@
+// 读取合约信息
 import { ethers, JsonRpcProvider, Contract, BigNumber } from "ethers"
 
 // 连接Sepolia测试网
