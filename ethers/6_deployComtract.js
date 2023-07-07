@@ -35,7 +35,9 @@ const main = async () => {
     const contractERC20 = await factory.deploy("ZCZ", "ZCZ")
     // 查询合约https://sepolia.etherscan.io
     console.log(`合约地址: ${contractERC20.target}`)
-    console.log(`部署合约的交易详情: ${contractERC20.deploymentTransaction()}`)
+    console.log(
+      `部署合约的交易详情: ${await contractERC20.deploymentTransaction()}`
+    )
     console.log("等待合约部署上链========")
     const contractDeployment = await contractERC20.waitForDeployment()
     // console.log(`合约已上链: ${contractDeployment}`)
