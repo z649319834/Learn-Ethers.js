@@ -1,10 +1,11 @@
 import { pinJSONToIPFS } from "./pinata.js"
 require("dotenv").config()
-const alchemyKey = process.env.REACT_APP_ALCHEMY_KEY
 const contractABI = require("../ZNFT-abi.json")
 const contractAddress = "0x8f8F59ab3efFDdcD64b285780b2DD8B575Ce47Ae"
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
-const web3 = createAlchemyWeb3(alchemyKey)
+const web3 = createAlchemyWeb3(
+  "https://eth-sepolia.g.alchemy.com/v2/1qr6Bdy3ZRNhCkAZFIqztdMJdBl_rUsJ"
+)
 
 export const connectWallet = async () => {
   if (window.ethereum) {
@@ -97,11 +98,17 @@ export const mintNFT = async (url, name, description) => {
   }
 
   //make metadata
-  const metadata = new Object()
-  metadata.name = name
-  metadata.image = url
-  metadata.description = description
 
+  const metadata = {
+    pinataContent: {
+      name: `${name}`,
+      description: `${description}`,
+      image: url,
+    },
+    pinataMetadata: {
+      name: name,
+    },
+  }
   const pinataResponse = await pinJSONToIPFS(metadata)
   if (!pinataResponse.success) {
     return {
@@ -113,7 +120,7 @@ export const mintNFT = async (url, name, description) => {
 
   console.log("pinataResponse", pinataResponse)
 
-  window.contract = await new web3.eth.Contract(contractABI, contractAddress)
+  window.contract = await loadContract()
   console.log("contract>>>>>", window.contract)
   const transactionParameters = {
     to: contractAddress, // Required except during contract publications.

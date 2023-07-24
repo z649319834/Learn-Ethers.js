@@ -7,6 +7,7 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
     "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
     "chai": "^4.3.7",
     "dotenv": "^16.3.1",
     "ethers": "^5.0.0",
@@ -16,7 +17,9 @@
   },
   "scripts": {
     "build": "yarn compile && yarn deploy",
-    "deploy": "npx hardhat run scripts/deploy.js --network sepolia",
+    "deploy-znft": "npx hardhat run scripts/z-deploy.js --network sepolia",
+    "deploy-enft": "npx hardhat run scripts/e-deploy.js --network sepolia",
+    "deploy": "npx hardhat --network sepolia run",
     "compile": "npx hardhat compile"
   },
   "author": "",
