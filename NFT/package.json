@@ -17,8 +17,6 @@
   },
   "scripts": {
     "build": "yarn compile && yarn deploy",
-    "deploy-znft": "npx hardhat run scripts/z-deploy.js --network sepolia",
-    "deploy-enft": "npx hardhat run scripts/e-deploy.js --network sepolia",
     "deploy": "npx hardhat --network sepolia run",
     "compile": "npx hardhat compile"
   },
