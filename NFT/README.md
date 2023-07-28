@@ -13,4 +13,4 @@ npx hardhat run scripts/deploy.js
 ```
 
 # 学习资料
-1、[](https://juejin.cn/post/7221820151398006821)
+1、[如何编写 NFT 智能合约](https://juejin.cn/post/7221820151398006821)

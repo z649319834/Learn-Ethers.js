@@ -8,18 +8,18 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract BNFT is ERC721Enumerable, Ownable {
+contract CNFT is ERC721Enumerable, Ownable {
   using SafeMath for uint256;
   using Counters for Counters.Counter;
   using Strings for uint256;
   Counters.Counter private _tokenIds;
-  uint256 public MAX_SUPPLY = 1;
-  uint256 public MAX_PER_MINT = 5;
+  uint256 public MAX_SUPPLY = 10000000;
+  uint256 public MAX_PER_MINT = 100;
   string public BASETOKEN_URL;
-  uint public PRICE = 100000000000000; // 0.0001 ether
+  uint public PRICE = 0;
   
 
-  constructor(string memory baseURI) ERC721("BNFT","BNFT") {
+  constructor(string memory baseURI) ERC721("CNFT","CNFT") {
     setBaseURI(baseURI);
   }
 
@@ -39,8 +39,8 @@ contract BNFT is ERC721Enumerable, Ownable {
         return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : tokenId.toString();
     }
 
-  //  批量铸造 []
-  function mintNfts(address[] memory to,uint256[] memory tokenIds) public payable onlyOwner{
+  //  批量铸造
+  function mints(address[] memory to,uint256[] memory tokenIds) public payable onlyOwner{
       uint _count = tokenIds.length;
       uint totalMinted = _tokenIds.current();
       require(
@@ -49,7 +49,7 @@ contract BNFT is ERC721Enumerable, Ownable {
 
       require(
         _count > 0 && _count <= MAX_PER_MINT, 
-        "Cannot mint specified number of NFTs."
+        "Too many cast at one time!"
       );
 
      require(
@@ -60,7 +60,6 @@ contract BNFT is ERC721Enumerable, Ownable {
      for (uint i = 0; i < _count; i++) {
         _safeMint(to[i],tokenIds[i]);
         _tokenIds.increment();
-        approve(msg.sender, tokenIds[i]);
      }
   }
 
@@ -71,16 +70,15 @@ contract BNFT is ERC721Enumerable, Ownable {
    uint totalMinted = _tokenIds.current();
     require(
        totalMinted.add(1) <= MAX_SUPPLY, 
-       "Not enough NFTs!"
+       "Purchase would exceed max supply!"
      );
 
      require(
        msg.value >= PRICE.mul(1), 
-       "Not enough ether to purchase NFTs."
+       "Ether value sent is not correct!"
      );
     _safeMint(to, tokenId);
     _tokenIds.increment();
-    approve(msg.sender, tokenId);
   }
 
   // 获取一个账户下所拥有的所有代币
