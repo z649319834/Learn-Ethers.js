@@ -1,6 +1,12 @@
 //  部署合约
 // https://github.com/WTFAcademy/WTF-Ethers/blob/main/06_DeployContract/readme.md
-import { ethers, Wallet, ContractFactory, JsonRpcProvider } from "ethers"
+import {
+  ethers,
+  Wallet,
+  ContractFactory,
+  JsonRpcProvider,
+  getNumber,
+} from "ethers"
 
 const provider = new JsonRpcProvider(process.env.NETWORK_URL)
 
